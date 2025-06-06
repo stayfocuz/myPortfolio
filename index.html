@@ -541,36 +541,27 @@
       <path d="M12 3.1a1 1 0 0 0 0 1.8 6.1 6.1 0 1 1 0 10.2 1 1 0 0 0 0 1.8 8.9 8.9 0 1 0 0-14.8Z"></path>
     </svg>
   </button>
-  <audio id="myAudio" src="audio.mp3" preload="auto" controls></audio>
-  <div id="message" style="font-family: Arial, sans-serif; margin-top: 1em;"></div>
-  <script>
-    const audio = document.getElementById('myAudio');
-    const message = document.getElementById('message');
-    window.addEventListener('load', () => {
-      audio.play().then(() => {
-        message.textContent = "Audio is playing automatically.";
-      }).catch(() => {
-        message.innerHTML = 'Click anywhere to start the audio.';
-        function userPlay() {
-          audio.play();
-          message.textContent = "Audio started!";
-          window.removeEventListener('click', userPlay);
-        }
-        window.addEventListener('click', userPlay);
-      });
-    });
-  </script>
+  <header>
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.2rem; margin-bottom: 1.5rem;">
+      <img class="avatar" src="photo.jpg" alt="JOHN KYLE CUARTEROS's photo" style="width:180px; height:180px;" />
+      <!-- Play button icon, larger and centered directly under avatar -->
+      <button id="audio-play-btn" aria-label="Play welcome audio"
+        style="background: none; border: none; cursor: pointer; outline: none; padding: 0; display: flex; align-items: center; justify-content: center;">
+        <svg id="audio-play-icon" width="70" height="70" viewBox="0 0 70 70" fill="#7fffd4" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="35" cy="35" r="35" fill="#0a1421"/>
+          <polygon points="28,20 54,35 28,50" fill="#7fffd4"/>
+        </svg>
+      </button>
+      <audio id="myAudio" src="audio.mp3" preload="auto"></audio>
+    </div>
+    <h1>JOHN KYLE CUARTEROS</h1>
+    <p class="title">Passionate Software Developer & Future Collaborator</p>
+    <p class="bio">
+      I am a dedicated computer science student and aspiring professional with a drive to learn, grow, and contribute to impactful technology solutions. Eager to collaborate with innovative teams and deliver quality software that solves real-world challenges, I am committed to continuous improvement and excellence.
+    </p>
+  </header>
 
   <div id="page-content">
-    <header>
-      <img class="avatar" src="photo.jpg" alt="JOHN KYLE CUARTEROS's photo" />
-      <h1>JOHN KYLE CUARTEROS</h1>
-      <p class="title">Passionate Software Developer & Future Collaborator</p>
-      <p class="bio">
-        I am a dedicated computer science student and aspiring professional with a drive to learn, grow, and contribute to impactful technology solutions. Eager to collaborate with innovative teams and deliver quality software that solves real-world challenges, I am committed to continuous improvement and excellence.
-      </p>
-    </header>
-
     <main>
       <!-- About Section -->
       <section id="about" tabindex="0" aria-label="About me section" class="section">
@@ -642,7 +633,7 @@
                 <span style="color:#7fffd4; font-weight:600;">Click to view GitHub repository</span>
               </div>
             </div>
-            <div class="carousel-item" style="cursor:pointer;" onclick="window.open('https://github.com/stayfocuz/cuarteros_project', '_blank')">
+            <div class="carousel-item" style="cursor:pointer;" onclick="window.open('https://github.com/stayfocuz/Basic-Calculator', '_blank')">
               <h3>Cuarteros Project - Simple Calculator</h3>
               <p>A straightforward calculator project demonstrating basic UI and arithmetic operations.</p>
               <div style="text-align:center;">
@@ -889,6 +880,23 @@
 
     initParticles();
     animateParticles();
+
+    // Audio play button logic
+    const audio = document.getElementById('myAudio');
+    const playBtn = document.getElementById('audio-play-btn');
+    const playIcon = document.getElementById('audio-play-icon');
+
+    playBtn.addEventListener('click', function() {
+      if (audio.paused) {
+        audio.play();
+        // Optionally, change icon to pause if you want
+        // playIcon.innerHTML = '<rect x="13" y="12" width="4" height="14" fill="#7fffd4"/><rect x="21" y="12" width="4" height="14" fill="#7fffd4"/>';
+      } else {
+        audio.pause();
+        // Optionally, revert icon to play
+        // playIcon.innerHTML = '<polygon points="15,12 28,19 15,26" fill="#7fffd4"/>';
+      }
+    });
   </script>
 </body>
 </html>
