@@ -541,25 +541,34 @@
       <path d="M12 3.1a1 1 0 0 0 0 1.8 6.1 6.1 0 1 1 0 10.2 1 1 0 0 0 0 1.8 8.9 8.9 0 1 0 0-14.8Z"></path>
     </svg>
   </button>
-  <audio id="myAudio" src="audio.mp3" preload="auto" controls></audio>
-  <div id="message" style="font-family: Arial, sans-serif; margin-top: 1em;"></div>
-  <script>
-    const audio = document.getElementById('myAudio');
-    const message = document.getElementById('message');
-    window.addEventListener('load', () => {
-      audio.play().then(() => {
-        message.textContent = "Audio is playing automatically.";
-      }).catch(() => {
-        message.innerHTML = 'Click anywhere to start the audio.';
-        function userPlay() {
-          audio.play();
+ <audio id="myAudio" src="audio.mp3" preload="auto"></audio>
+<div id="message" style="font-family: Arial, sans-serif; margin-top: 1em;"></div>
+
+<script>
+  const audio = document.getElementById('myAudio');
+  const message = document.getElementById('message');
+
+  window.addEventListener('load', () => {
+    // Try to autoplay the audio
+    audio.play().then(() => {
+      message.textContent = "Audio is playing automatically.";
+    }).catch((err) => {
+      // Autoplay failed — usually due to browser policy
+      message.innerHTML = '🔊 Click anywhere on the page to start the audio.';
+
+      const userPlay = () => {
+        audio.play().then(() => {
           message.textContent = "Audio started!";
-          window.removeEventListener('click', userPlay);
-        }
-        window.addEventListener('click', userPlay);
-      });
+        }).catch((e) => {
+          message.textContent = "Audio failed to play: " + e.message;
+        });
+        window.removeEventListener('click', userPlay);
+      };
+
+      window.addEventListener('click', userPlay);
     });
-  </script>
+  });
+</script>
 
   <div id="page-content">
     <header>
