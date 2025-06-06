@@ -547,9 +547,9 @@
       <!-- Play button icon, larger and centered directly under avatar -->
       <button id="audio-play-btn" aria-label="Play welcome audio"
         style="background: none; border: none; cursor: pointer; outline: none; padding: 0; display: flex; align-items: center; justify-content: center;">
-        <svg id="audio-play-icon" width="70" height="70" viewBox="0 0 70 70" fill="#7fffd4" xmlns="http://www.w3.org/2000/svg">
+        <svg id="audio-play-icon" width="38" height="38" viewBox="0 0 70 70" fill="#7fffd4" xmlns="http://www.w3.org/2000/svg">
           <circle cx="35" cy="35" r="35" fill="#0a1421"/>
-          <polygon points="28,20 54,35 28,50" fill="#7fffd4"/>
+          <polygon id="audio-play-shape" points="28,20 54,35 28,50" fill="#7fffd4"/>
         </svg>
       </button>
       <audio id="myAudio" src="audio.mp3" preload="auto"></audio>
@@ -885,18 +885,31 @@
     const audio = document.getElementById('myAudio');
     const playBtn = document.getElementById('audio-play-btn');
     const playIcon = document.getElementById('audio-play-icon');
+    const playShape = document.getElementById('audio-play-shape');
+
+    function setPlayIcon() {
+      playShape.setAttribute('points', '28,20 54,35 28,50'); // Play triangle
+    }
+    function setStopIcon() {
+      playShape.setAttribute('points', '28,22 28,48 54,48 54,22'); // Stop square
+    }
 
     playBtn.addEventListener('click', function() {
       if (audio.paused) {
         audio.play();
-        // Optionally, change icon to pause if you want
-        // playIcon.innerHTML = '<rect x="13" y="12" width="4" height="14" fill="#7fffd4"/><rect x="21" y="12" width="4" height="14" fill="#7fffd4"/>';
+        setStopIcon();
       } else {
         audio.pause();
-        // Optionally, revert icon to play
-        // playIcon.innerHTML = '<polygon points="15,12 28,19 15,26" fill="#7fffd4"/>';
+        setPlayIcon();
       }
     });
+
+    // Also update icon if user stops audio by other means
+    audio.addEventListener('ended', setPlayIcon);
+    audio.addEventListener('pause', setPlayIcon);
+    audio.addEventListener('play', setStopIcon);
+
+    setPlayIcon();
   </script>
 </body>
 </html>
